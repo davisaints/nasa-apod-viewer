@@ -14,7 +14,6 @@ import java.net.URI;
 import org.spaceviewer.apod.model.ApodResponse;
 
 public class NasaApodClient {
-    private static final String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
@@ -27,6 +26,7 @@ public class NasaApodClient {
         Dotenv dotenv = Dotenv.load();
 
         String apiKey = dotenv.get("API_KEY");
+        String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(APOD_API_URL + "?api_key=" + apiKey))
