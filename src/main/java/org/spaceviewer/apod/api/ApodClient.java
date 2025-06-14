@@ -13,11 +13,11 @@ import java.net.URI;
 
 import org.spaceviewer.apod.model.ApodResponse;
 
-public class NasaApodClient {
+public class ApodClient {
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    public NasaApodClient(HttpClient httpClient, ObjectMapper objectMapper) {
+    public ApodClient(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }
@@ -26,6 +26,7 @@ public class NasaApodClient {
         Dotenv dotenv = Dotenv.load();
 
         String apiKey = dotenv.get("API_KEY");
+
         String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
 
         HttpRequest request = HttpRequest.newBuilder()
