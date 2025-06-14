@@ -24,18 +24,18 @@ public class ApodClient {
 
     public ApodResponse fetchApodData() throws IOException, InterruptedException {
         Dotenv dotenv = Dotenv.load();
-
         String apiKey = dotenv.get("API_KEY");
 
         String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
+
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(APOD_API_URL + "?api_key=" + apiKey))
                 .GET()
                 .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         return objectMapper.readValue(response.body(), ApodResponse.class);
     }
