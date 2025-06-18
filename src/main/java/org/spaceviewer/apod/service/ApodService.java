@@ -8,8 +8,6 @@ import org.spaceviewer.apod.api.ApodClient;
 import org.spaceviewer.apod.model.ApodResponse;
 
 public class ApodService {
-    private final ApodClient apodClient;
-
     public ApodService(ApodClient apodClient) {
         this.apodClient = apodClient;
     }
@@ -27,4 +25,6 @@ public class ApodService {
 
         return apodResponse;
     }
+
+    private final ApodClient apodClient;
 }

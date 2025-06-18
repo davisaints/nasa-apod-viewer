@@ -14,8 +14,6 @@ import java.net.URI;
 import org.spaceviewer.apod.model.ApodResponse;
 
 public class ApodClient {
-    private final HttpClient httpClient;
-
     public ApodClient(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
@@ -39,4 +37,6 @@ public class ApodClient {
 
         return objectMapper.readValue(response.body(), ApodResponse.class);
     }
+
+    private final HttpClient httpClient;
 }
