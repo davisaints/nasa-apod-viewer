@@ -15,11 +15,9 @@ import org.spaceviewer.apod.model.ApodResponse;
 
 public class ApodClient {
     private final HttpClient httpClient;
-    private final ObjectMapper objectMapper;
 
-    public ApodClient(HttpClient httpClient, ObjectMapper objectMapper) {
+    public ApodClient(HttpClient httpClient) {
         this.httpClient = httpClient;
-        this.objectMapper = objectMapper;
     }
 
     public ApodResponse fetchApodData() throws IOException, InterruptedException {
@@ -27,15 +25,17 @@ public class ApodClient {
         String apiKey = dotenv.get("API_KEY");
 
         String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
-
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        URI uri = URI.create(APOD_API_URL + "?api_key=" + apiKey);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(APOD_API_URL + "?api_key=" + apiKey))
+                .uri(uri)
                 .GET()
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         return objectMapper.readValue(response.body(), ApodResponse.class);
     }

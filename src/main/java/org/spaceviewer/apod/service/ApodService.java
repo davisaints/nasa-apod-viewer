@@ -9,11 +9,9 @@ import org.spaceviewer.apod.model.ApodResponse;
 
 public class ApodService {
     private final ApodClient apodClient;
-    private final ObjectMapper objectMapper;
 
-    public ApodService(ApodClient apodClient, ObjectMapper objectMapper) {
+    public ApodService(ApodClient apodClient) {
         this.apodClient = apodClient;
-        this.objectMapper = objectMapper;
     }
 
     public ApodResponse getTodayApod() throws IOException, InterruptedException {

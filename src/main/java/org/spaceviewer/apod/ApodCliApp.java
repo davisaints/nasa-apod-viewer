@@ -32,9 +32,8 @@ public class ApodCliApp {
 
     private static void _run(String[] args) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newHttpClient();
-        ObjectMapper objectMapper = new ObjectMapper();
-        ApodClient apodClient = new ApodClient(httpClient, objectMapper);
-        ApodService apodService = new ApodService(apodClient, objectMapper);
+        ApodClient apodClient = new ApodClient(httpClient);
+        ApodService apodService = new ApodService(apodClient);
 
         ProcessBuilder builder = new ProcessBuilder();
         String option = args[0];
