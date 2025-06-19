@@ -1,11 +1,7 @@
 package org.spaceviewer.apod;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-
 import java.net.http.HttpClient;
-
 import java.util.Arrays;
 
 import org.spaceviewer.apod.api.ApodClient;
@@ -36,11 +32,13 @@ public class ApodCliApp {
         ApodService apodService = new ApodService(apodClient);
 
         ProcessBuilder builder = new ProcessBuilder();
+
         String option = args[0];
         switch (option) {
             case "--download":
             case "-d":
                 ApodResponse apodResponse = apodService.getTodayApod();
+
                 String imageURL = (apodResponse.hdurl().isEmpty() || apodResponse.hdurl().isBlank())
                         ? apodResponse.url()
                         : apodResponse.hdurl();
@@ -54,9 +52,7 @@ public class ApodCliApp {
 
                     if (exitCode == 0) {
                         System.out.println("File successfully downloaded to the current directory!");
-                    }
-
-                    if (exitCode > 0) {
+                    } else {
                         System.err.println("Download failed with exit code: " + exitCode + ".");
                     }
                 } catch (IOException | InterruptedException e) {
