@@ -53,11 +53,11 @@ public class ApodCliApp {
                     int exitCode = process.waitFor();
 
                     if (exitCode == 0) {
-                        System.out.println("File downloaded successfully!");
+                        System.out.println("File successfully downloaded to the current directory!");
                     }
 
                     if (exitCode > 0) {
-                        System.err.println("Download failed with exit code: " + exitCode);
+                        System.err.println("Download failed with exit code: " + exitCode + ".");
                     }
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
