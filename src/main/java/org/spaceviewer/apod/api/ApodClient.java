@@ -22,7 +22,7 @@ public class ApodClient {
 
     public ApodResponse fetchApodData() throws IOException, InterruptedException {
         String APOD_API_URL = "https://api.nasa.gov/planetary/apod";
-        URI uri = URI.create(APOD_API_URL + "?api_key=" + _getProperty("api.key"));
+        URI uri = URI.create(APOD_API_URL + "?api_key=" + _getApiKey());
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
@@ -37,7 +37,7 @@ public class ApodClient {
         return objectMapper.readValue(response.body(), ApodResponse.class);
     }
 
-    private String _getProperty(String propertyKey) throws IOException {
+    private String _getApiKey() throws IOException {
         InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
         if (input == null) {
             throw new IOException("config.properties not found in classpath.");
@@ -46,9 +46,9 @@ public class ApodClient {
         Properties props = new Properties();
         props.load(input);
 
-        String apiKey = props.getProperty(propertyKey);
+        String apiKey = props.getProperty("api.key");
         if (apiKey == null || apiKey.isBlank()) {
-            throw new IllegalStateException(propertyKey + " not set in config.properties");
+            throw new IllegalStateException("api.key" + " not set in config.properties");
         }
 
         return apiKey;
