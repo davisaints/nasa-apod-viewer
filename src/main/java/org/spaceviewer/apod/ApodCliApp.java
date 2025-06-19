@@ -45,7 +45,7 @@ public class ApodCliApp {
                         ? apodResponse.url()
                         : apodResponse.hdurl();
 
-                builder.command(Arrays.asList("wget", imageURL));
+                builder.command(Arrays.asList("wget", "--quiet", imageURL));
 
                 try {
                     Process process = builder.inheritIO().start();
