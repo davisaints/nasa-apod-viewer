@@ -1,11 +1,9 @@
 package org.spaceviewer.apod.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-
 import org.spaceviewer.apod.api.ApodClient;
 import org.spaceviewer.apod.model.ApodResponse;
+
+import java.io.IOException;
 
 public class ApodService {
     public ApodService(ApodClient apodClient) {
