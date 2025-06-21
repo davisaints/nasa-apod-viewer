@@ -1,6 +1,6 @@
 # APOD CLI Viewer
 
-Introducing a straightforward Java CLI tool designed to **download** and **view** NASA's Astronomy Picture of the Day (APOD).
+A simple Java CLI tool to **download** and **view** NASA's Astronomy Picture of the Day (APOD).
 
 ---
 
