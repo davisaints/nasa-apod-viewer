@@ -1,12 +1,11 @@
 package org.spaceviewer.apod;
 
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.util.Arrays;
-
 import org.spaceviewer.apod.api.ApodClient;
 import org.spaceviewer.apod.model.ApodResponse;
 import org.spaceviewer.apod.service.ApodService;
+
+import java.io.IOException;
+import java.net.http.HttpClient;
 
 public class ApodCliApp {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -15,6 +14,33 @@ public class ApodCliApp {
             return;
         }
         _run(args);
+    }
+
+    private static void _downloadImage(String imageURL) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder("wget", "--quiet", imageURL);
+
+        int exitCode = processBuilder.start().waitFor();
+
+        if (exitCode == 0) {
+            System.out.println("File successfully downloaded to the current directory!");
+        } else {
+            throw new RuntimeException("Download failed with status code: " + exitCode);
+        }
+    }
+
+    private static String getPreferredImageUrl(ApodResponse apodResponse) {
+        String hdurl = apodResponse.hdurl();
+        String url = apodResponse.url();
+
+        if (hdurl != null && !hdurl.isBlank()) {
+            return hdurl;
+        }
+
+        if (url != null && !url.isBlank()) {
+            return url;
+        }
+
+        throw new IllegalStateException("No valid image URL found in the APOD response.");
     }
 
     private static void _printHelp() {
@@ -31,33 +57,28 @@ public class ApodCliApp {
         ApodClient apodClient = new ApodClient(httpClient);
         ApodService apodService = new ApodService(apodClient);
 
-        ProcessBuilder builder = new ProcessBuilder();
+        ApodResponse apodResponse = apodService.getTodayApod();
+
+        String imageURL = getPreferredImageUrl(apodResponse);
 
         String option = args[0];
         switch (option) {
             case "--download":
             case "-d":
-                ApodResponse apodResponse = apodService.getTodayApod();
+                _downloadImage(imageURL);
+            case "--view":
+            case "-v":
+                _viewImage(imageURL);
+            }
+        }
 
-                String imageURL = (apodResponse.hdurl().isEmpty() || apodResponse.hdurl().isBlank())
-                        ? apodResponse.url()
-                        : apodResponse.hdurl();
+    private static void _viewImage(String imageURL) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder("xdg-open", imageURL);
 
-                builder.command(Arrays.asList("wget", "--quiet", imageURL));
+        int exitCode = processBuilder.start().waitFor();
 
-                try {
-                    Process process = builder.inheritIO().start();
-
-                    int exitCode = process.waitFor();
-
-                    if (exitCode == 0) {
-                        System.out.println("File successfully downloaded to the current directory!");
-                    } else {
-                        System.err.println("Download failed with exit code: " + exitCode + ".");
-                    }
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+        if (exitCode != 0) {
+            throw new RuntimeException("Failed to open image viewer. Exit code: " + exitCode);
         }
     }
 }
