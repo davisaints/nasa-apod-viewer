@@ -8,14 +8,6 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 
 public class ApodCliApp {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length == 0) {
-            _printHelp();
-            return;
-        }
-        _run(args);
-    }
-
     private static void _downloadImage(String imageURL) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("wget", "--quiet", imageURL);
 
@@ -41,6 +33,14 @@ public class ApodCliApp {
         }
 
         throw new IllegalStateException("No valid image URL found in the APOD response.");
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        if (args.length == 0) {
+            _printHelp();
+            return;
+        }
+        _run(args);
     }
 
     private static void _printHelp() {
