@@ -48,7 +48,6 @@ public class ApodCliApp {
         System.out.println();
         System.out.println("Mandatory arguments to long options are mandatory for short options too.");
         System.out.println("  -d, --download    download the APOD image");
-        System.out.println("  -s, --set         set the image as wallpaper");
         System.out.println("  -v, --view        view the last downloaded image");
     }
 
