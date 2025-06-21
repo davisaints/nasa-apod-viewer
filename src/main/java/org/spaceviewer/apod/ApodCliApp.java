@@ -47,8 +47,8 @@ public class ApodCliApp {
         System.out.println("Usage: java -jar apod-cli.jar [OPTION]...");
         System.out.println();
         System.out.println("Mandatory arguments to long options are mandatory for short options too.");
-        System.out.println("  -d, --download    download the APOD image");
-        System.out.println("  -v, --view        view the last downloaded image");
+        System.out.println("  -d, --download    download the image of the day");
+        System.out.println("  -v, --view        view the image of the day");
     }
 
     private static void _run(String[] args) throws IOException, InterruptedException {
